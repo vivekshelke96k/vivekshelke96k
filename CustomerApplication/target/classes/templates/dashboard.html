@@ -1,0 +1,190 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Getting Started: Serving Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+body {
+	margin: 20px;
+}
+
+table {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+th, td {
+	border: 1px solid;
+	padding: 8px;
+}
+
+a {
+	display: inline-block;
+	margin-bottom: 10px;
+	padding: 8px 16px;
+	background-color: green;
+	color: white;
+	text-decoration: none;
+	border-radius: 4px;
+}
+
+form {
+	margin-top: 20px;
+}
+
+label, input, select, button {
+	margin-bottom: 10px;
+}
+
+button {
+	padding: 8px 16px;
+	background-color: red;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+/* Pagination Container */
+.pagination-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Total Rows */
+.total-rows {
+    margin-bottom: 10px;
+}
+
+/* Pagination Items */
+.pagination-item {
+    margin-right: 5px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+}
+
+.pagination-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* Active Pagination Item */
+.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Next and Last Links */
+.next-last-link {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.next-last-link:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+	<a th:href="@{/customers/register}">Add Customer</a>
+	<!%--To get by id -->
+	<form action="#" th:action="@{/customers/id}" th:object="${customer}"
+		method="get">
+		<label for="customerId">Enter Customer ID:</label> <input
+			type="number" id="customerId" name="id" required /> <input
+			type="submit" value="Get Customer" />
+	</form>
+	<!-- To get all --> <a th:href="@{/customers/page/1}">Get all</a>
+	
+	
+	<!-- Display filter form -->
+	<form action="/customers/filter" method="post">
+		<table border="1">
+			<tr>
+				<td><label>Search by:</label></td>
+				<td><select name="filterBy">
+						<option value="NAME">Name</option>
+						<option value="CITY">City</option>
+						<option value="EMAIL">Email</option>
+						<option value="PHONE">Phone</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><label>Search term:</label></td>
+				<td><input type="text" name="searchTerm" /></td>
+			</tr>
+			<tr>
+				<td><input type="submit" value="Submit" /></td>
+			</tr>
+		</table>
+	</form>
+<table>
+<thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Phone</th>
+            <th>Action</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+	<tbody>
+		<tr th:each="customer: ${customers}">
+			<td th:text="${customer.id}" />
+			<td th:text="${customer.firstName}" />
+			<td th:text="${customer.lastName}"></td>
+			<td th:text="${customer.address}"></td>
+			<td th:text="${customer.city}"></td>
+			<td th:text="${customer.state}"></td>
+			<td th:text="${customer.phone}"></td>
+			<td><a th:href="@{/customers/update/{id}(id=${customer.id})}"><button
+						id="updateButton">Update Data</button></a></td>
+			<td><a th:href="@{/customers/delete/{id}(id=${customer.id})}"><button
+						id="deleteButton">Delete</button></a></td>
+		</tr>
+	</tbody>
+	</table>
+	
+	<div th:if="${totalPages > 1}" class="pagination-container">
+    <div>
+        <div class="total-rows">
+            Total Rows: [[${totalItems}]]
+        </div>
+        <div>
+            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                <a th:if="${currentPage != i}" th:href="@{'/customers/page/' + ${i}}" class="pagination-item">[[${i}]]</a>
+                <span th:unless="${currentPage != i}" class="pagination-item active">[[${i}]]</span>
+                &nbsp; &nbsp;
+            </span>
+        </div>
+        <div>
+            <a th:if="${currentPage < totalPages}" th:href="@{'/customers/page/' + ${currentPage + 1}}" class="next-last-link">Next</a>
+            <span th:unless="${currentPage < totalPages}" class="next-last-link">Next</span>
+
+            <a th:if="${currentPage < totalPages}" th:href="@{'/customers/page/' + ${totalPages}}" class="next-last-link">Last</a>
+            <span th:unless="${currentPage < totalPages}" class="next-last-link">Last</span>
+        </div>
+    </div>
+</div>
+</body>
+
+
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Getting Started: Serving Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+	<form action="#" th:action="@{/customers}" th:object="${customer}"
+		method="post">
+		<table border="1">
+			<tr>
+				<td><label th:text="|First Name|" /></td>
+				<td><input type="text" th:field="*{firstName}" /></td>
+			</tr>
+			<tr>
+				<td><label th:text="|Last Name|" /></td>
+				<td><input type="text" th:field="*{lastName}" /></td>
+			</tr>
+			<tr>
+				<td><label th:text="|Address|" /></td>
+				<td><input type="text" th:field="*{address}" /></td>
+			</tr>
+			<tr>
+				<td><label th:text="|City|" /></td>
+				<td><input type="text" th:field="*{city}" /></td>
+			</tr>
+			<tr>
+				<td><label th:text="|State|" /></td>
+				<td><input type="text" th:field="*{state}" /></td>
+			</tr>
+			<tr>
+				<td><label th:text="|Phone|" /></td>
+				<td><input type="number" th:field="*{phone}" /></td>
+			</tr>
+			<tr>
+				<td><input type="submit" value="Submit" /></td>
+			</tr>
+		</table>
+	</form>
+</body>
+
+</html>
